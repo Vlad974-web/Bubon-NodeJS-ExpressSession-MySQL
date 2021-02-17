@@ -18,9 +18,11 @@ app.use(express.urlencoded({extended: false}))
 // Routes
 const index = require('./routes/indexRoute')
 const auth = require('./routes/authRoute')
+const dashboard = require('./routes/dashboardRoute')
 
 
 app.use('/auth', auth)
+app.use('/dashboard', dashboard)
 app.use('/', index)
 
 app.get('*', function(req, res){
