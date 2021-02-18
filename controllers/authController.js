@@ -10,7 +10,7 @@ exports.getLoginPage = async (req, res) => {
 //GET
 exports.getRegisterPage = async (req, res) => {
 
-    return res.render('register')
+    return res.render('register', {message: req.flash("message")})
 }
 
 //POST
@@ -21,7 +21,8 @@ exports.postRegisterPage = async (req, res) => {
     const findEmail = await querysql("SELECT COUNT(*) AS cnt FROM user WHERE email = ?", email)
     
     if (findEmail[0].cnt > 0) {
-        /* console.log("Email déjà utilisé"); */
+        // Méthode FLASH
+        req.flash("message", "L'email est déjà utilisé !")
         return res.redirect('/auth/register')
     }
 

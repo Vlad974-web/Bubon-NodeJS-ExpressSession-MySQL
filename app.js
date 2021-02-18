@@ -3,6 +3,7 @@ const express  = require('express')
 ,     util = require('util')
 ,     mysql = require('mysql')
 ,     session = require('express-session')
+,     flash = require('connect-flash')
 ,     port = 3500;
 
 
@@ -36,10 +37,13 @@ app.use(session({
   cookie: {
     maxAge: 1000 * 60 * 60 * 24     // Au bout de 24h, on demande que l'utilisateur soit connecte.
   }
-})
+}))
 
 // EJS
-app.set('view engine', 'ejs'); 
+app.set('view engine', 'ejs');
+
+// Activer les messages Flash
+app.use(flash())
 
 
 // Static folder
