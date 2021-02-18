@@ -89,3 +89,12 @@ exports.postRegisterPage = async (req, res) => {
         res.status(400).json({message: err})
     }
 }
+
+
+//======================================================= PAGE DECONNECTÉ
+// GET
+exports.getLogoutPage = async (req, res) => {
+    req.session.destroy(function (err) {
+        res.redirect('/auth/login')
+    })
+}

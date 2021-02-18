@@ -17,4 +17,8 @@ router.get('/register', authController.getRegisterPage)
 router.post('/register', authController.postRegisterPage)
 
 
+/* ========================================================== DÉCONNECTER ============================================================================ */
+// GET
+router.get('/logout', authController.getLogoutPage)
+
 module.exports = router
