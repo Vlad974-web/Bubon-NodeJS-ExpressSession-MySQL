@@ -1,3 +1,5 @@
+const bcrypt = require('bcrypt')
+
 // PAGE DE CONNEXION
 exports.getLoginPage = async (req, res) => {
     
@@ -19,14 +21,29 @@ exports.postRegisterPage = async (req, res) => {
     const findEmail = await querysql("SELECT COUNT(*) AS cnt FROM user WHERE email = ?", email)
     
     if (findEmail[0].cnt > 0) {
-        console.log("Email déjà utilisé");
+        /* console.log("Email déjà utilisé"); */
         return res.redirect('/auth/register')
     }
 
     // Ajouter un utilisateur
     try {
 
+        // Hasher le mot de passe
+        const meliodas = await bcrypt.genSalt(10)
+        const hash = await bcrypt.hash(password, meliodas)
+
+        await querysql(
+            'INSERT INTO user (firstname, lastname, email, password) VALUES (?, ?, ?, ?)',
+            [firstname, lastname, email, hash],
+            (err, result) => {
+                if (err) {
+                    return res.redirect('/auth/register')
+                }
+                return res.redirect('/auth/login')
+            }
+        )
+
     } catch (err) {
-        res.status(400).json({ message: err })
+        res.status(400).json({message: err})
     }
 }
