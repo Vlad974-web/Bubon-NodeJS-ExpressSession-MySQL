@@ -10,5 +10,8 @@ router.get('/login', authController.getLoginPage)
 // GET
 router.get('/register', authController.getRegisterPage)
 
+//POST
+router.post('/register', authController.postRegisterPage)
+
 
 module.exports = router
