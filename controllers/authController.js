@@ -22,6 +22,16 @@ exports.postLoginPage = async (req, res) => {
         req.flash("message", "Aucun utilisateur avec cet email")
         return res.redirect('/auth/login')
     }
+
+    // Si l'email existe
+    // Vérifier le mot de passe
+    const user = await querysql("SELECT userID, firstname, lastname, email, password FROM user WHERE email = ?", email)
+    const passwordCheck = await bcrypt.compare(password, user[0].password)
+
+    if (!passwordCheck) {
+        req.flash("message", "Mot de passe incorrecte")
+        return res.redirect('/auth/login')
+    }
 }
 
 //====================================================== PAGE D'INSCRIPTION
