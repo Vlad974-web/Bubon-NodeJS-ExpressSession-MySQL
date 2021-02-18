@@ -2,6 +2,7 @@ const express  = require('express')
 ,     app = express()
 ,     util = require('util')
 ,     mysql = require('mysql')
+,     session = require('express-session')
 ,     port = 3500;
 
 
@@ -25,6 +26,17 @@ db.connect(
   }
 );
 global.querysql = util.promisify(db.query).bind(db)
+
+// EXPRESS-SESSION
+app.use(session({
+  name: 'biscuit',
+  secret: 'secret',
+  resave: false,              // forcer enregistrement
+  saveUninitialized: true,    // forcer même si n'était pas initialisé est bien il va être quand même enregistrer
+  cookie: {
+    maxAge: 1000 * 60 * 60 * 24     // Au bout de 24h, on demande que l'utilisateur soit connecte.
+  }
+})
 
 // EJS
 app.set('view engine', 'ejs'); 
