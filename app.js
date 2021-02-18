@@ -54,6 +54,8 @@ app.use(express.static('public'));
 app.use(express.json())
 app.use(express.urlencoded({extended: false}))
 
+// Middleware
+const verifyAuth = require('./middleware/verifyAuth')
 
 // Routes
 const index = require('./routes/indexRoute')
@@ -62,7 +64,7 @@ const dashboard = require('./routes/dashboardRoute')
 
 
 app.use('/auth', auth)
-app.use('/dashboard', dashboard)
+app.use('/dashboard', verifyAuth.getVerifyAuth, dashboard)
 app.use('/', index)
 
 app.get('*', function(req, res){
