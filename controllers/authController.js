@@ -31,6 +31,16 @@ exports.postLoginPage = async (req, res) => {
     if (!passwordCheck) {
         req.flash("message", "Mot de passe incorrecte")
         return res.redirect('/auth/login')
+    } else {
+        req.session.userId = user[0].userID;
+        req.session.user = {
+            id: user[0].userID,
+            firstname: user[0].firstname,
+            lastname: user[0].lastname,
+            email: user[0].email
+        };
+        console.log(req.session.user);
+        return res.redirect('/dashboard')
     }
 }
 
