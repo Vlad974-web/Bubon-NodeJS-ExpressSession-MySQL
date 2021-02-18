@@ -4,6 +4,7 @@ const express  = require('express')
 ,     mysql = require('mysql')
 ,     session = require('express-session')
 ,     flash = require('connect-flash')
+,     MySQLStore = require('express-mysql-session')
 ,     port = 3500;
 
 
@@ -28,12 +29,16 @@ db.connect(
 );
 global.querysql = util.promisify(db.query).bind(db)
 
+// Express-mysql-session
+const sessionStore = new MySQLStore({}, db);
+
 // EXPRESS-SESSION
 app.use(session({
   name: 'biscuit',
   secret: 'secret',
   resave: false,              // forcer enregistrement
   saveUninitialized: true,    // forcer même si n'était pas initialisé est bien il va être quand même enregistrer
+  store: sessionStore,
   cookie: {
     maxAge: 1000 * 60 * 60 * 24     // Au bout de 24h, on demande que l'utilisateur soit connecte.
   }
