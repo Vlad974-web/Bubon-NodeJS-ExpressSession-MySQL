@@ -5,6 +5,9 @@ const authController = require('../controllers/authController')
 // GET
 router.get('/login', authController.getLoginPage)
 
+// POST
+router.post('/login', authController.postLoginPage)
+
 
 /* ========================================================== PAGE D'INSCRIPTION ============================================================================ */
 // GET

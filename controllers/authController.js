@@ -1,13 +1,27 @@
 const bcrypt = require('bcrypt')
 
-// PAGE DE CONNEXION
+//======================================================= PAGE DE CONNEXION
 // GET
-
 /* const {query} = require('express') */
 
 exports.getLoginPage = async (req, res) => {
     
     return res.render('login', {message: req.flash("message")})
+}
+
+// POST
+exports.postLoginPage = async (req, res) => {
+    // RÉCUPERER l'email et password
+    const { email, password } = req.body
+    
+    // Si l'emai n'existe pas
+    const findEmail = await querysql("SELECT COUNT(*) AS cnt FROM user WHERE email = ?", email)
+
+    if (!findEmail[0].cnt > 0) {
+        // Méthode FLASH
+        req.flash("message", "Aucun utilisateur avec cet email")
+        return res.redirect('/auth/login')
+    }
 }
 
 //====================================================== PAGE D'INSCRIPTION
