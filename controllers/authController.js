@@ -1,9 +1,13 @@
 const bcrypt = require('bcrypt')
 
 // PAGE DE CONNEXION
+// GET
+
+/* const {query} = require('express') */
+
 exports.getLoginPage = async (req, res) => {
     
-    return res.render('login')
+    return res.render('login', {message: req.flash("message")})
 }
 
 //====================================================== PAGE D'INSCRIPTION
@@ -38,8 +42,12 @@ exports.postRegisterPage = async (req, res) => {
             [firstname, lastname, email, hash],
             (err, result) => {
                 if (err) {
+                    // AFFICHER LE MESSAGE "INSCRIPTION NE PAS RÉUSSI"
+                    req.flash("message", `il y a une erreur ${err}`)
                     return res.redirect('/auth/register')
                 }
+                // AFFICHER LE MESSAGE "INSCRIPTION RÉUSSI"
+                req.flash("message", "Inscription avec succés ! Vous pouvez-vous connecter.")
                 return res.redirect('/auth/login')
             }
         )

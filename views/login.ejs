@@ -10,6 +10,10 @@
           <div class="col-md-6">
             <!-- Sign in -->
 
+            <% if(message.length > 0) { %>
+              <div class="alert alert-primary" role="alert"><%= message %></div>
+            <% } %>
+
               <form action="" method="POST">
                 <div class="mb-4">
                   <h2 class="h4">Se connecter</h2>
@@ -32,7 +36,6 @@
 
                 <button type="submit" class="btn btn-block btn-success">Se connecter</button>
               </form>
-       
           </div>
         </div>
       </div>
